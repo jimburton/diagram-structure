@@ -14,21 +14,19 @@ public class AxiomChecker {
 
     private static final ClassExpressionChecker checker = new ClassExpressionChecker();
 
-//    public Set<SubClassOfType> check(OWLEquivalentClassesAxiom ax) {
-//        Set<SubClassOfType> result = Sets.newHashSet();
-//        for(OWLSubClassOfAxiom sca : ax.asOWLSubClassOfAxioms()) {
-//            result.addAll(check(sca));
-//        }
-//        return result;
-//    }
-//
-    public Set<SubClassOfType> check(OWLSubClassOfAxiom ax) {
+    public Set<SubClassOfType> splitThencheck(OWLSubClassOfAxiom ax) {
         Set<SubClassOfType> result = Sets.newHashSet();
         for(OWLClassExpression sub : ax.getSubClass().asDisjunctSet()) {
             for(OWLClassExpression sup : ax.getSuperClass().asConjunctSet()) {
                 check(result, sub, sup);
             }
         }
+        return result;
+    }
+    
+    public Set<SubClassOfType> check(OWLSubClassOfAxiom ax) {
+        Set<SubClassOfType> result = Sets.newHashSet();
+        check(result, ax.getSubClass(), ax.getSuperClass());
         return result;
     }
 
@@ -83,8 +81,9 @@ public class AxiomChecker {
         @Override
         public Optional<Type> visit(OWLObjectSomeValuesFrom ce) {
             if(ce.getFiller().isAnonymous()) {
-                return Optional.absent();
-            }
+                //return Optional.absent();
+            	return Optional.of(Type.EXISTS_R_CLASS_EXPRESSION);
+            } 
             else {
                 return Optional.of(Type.EXISTS_R_CLASS_NAME);
             }
@@ -93,12 +92,14 @@ public class AxiomChecker {
         @Override
         public Optional<Type> visit(OWLObjectAllValuesFrom ce) {
             if(ce.getFiller().isAnonymous()) {
-                return Optional.absent();
+                //return Optional.absent();
+            	return Optional.of(Type.FORALL_R_CLASS_EXPRESSION);
             }
             else {
                 return Optional.of(Type.FORALL_R_CLASS_NAME);
             }
         }
+       
     }
 
 }

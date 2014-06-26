@@ -101,7 +101,8 @@ public class OntologyChecker {
     }
 
     private void process(AxiomChecker checker, OWLSubClassOfAxiom ax) {
-        Set<SubClassOfType> types = checker.check(ax);
+        //Set<SubClassOfType> types = checker.splitThencheck(ax);
+    	Set<SubClassOfType> types = checker.check(ax);
         for(SubClassOfType type : types) {
             subClassOfCountMap.get(type).getAndIncrement();
         }

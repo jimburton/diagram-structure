@@ -15,11 +15,11 @@ public enum Type {
 
     EXISTS_R_CLASS_NAME("\\exists R.A"),
 
-    //EXISTS_R_CLASS_EXPRESSION,
+    EXISTS_R_CLASS_EXPRESSION("\\exists R.C"),
 
     FORALL_R_CLASS_NAME("\\forall R.A"),
 
-    //FORALL_R_CLASS_EXPRESSION,
+    FORALL_R_CLASS_EXPRESSION("\\exists R.C"),
 
 //    COMPLEX_OTHER
 
